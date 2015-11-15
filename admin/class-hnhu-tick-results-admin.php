@@ -100,4 +100,36 @@ class Hnhu_Tick_Results_Admin {
 
 	}
 
+	/**
+	* Create the tick report post type
+	*
+	* @since    1.0.0
+	*/
+	public function register_tick_post_type() {
+
+		$labels = array(
+			"name" => "Tick Results",
+			"singular_name" => "Tick Result",
+			);
+
+		$args = array(
+			"labels" => $labels,
+			"description" => "",
+			"public" => true,
+			"show_ui" => true,
+			"has_archive" => false,
+			"show_in_menu" => true,
+			'menu_position' => 5,
+			'menu_icon' => 'dashicons-clipboard',
+			"exclude_from_search" => true,
+			"capability_type" => "post",
+			"map_meta_cap" => true,
+			"hierarchical" => false,
+			"rewrite" => array( "slug" => "tick-result", "with_front" => true ),
+			"query_var" => true,
+
+			"supports" => array( "title" ),
+		);
+		register_post_type( "tick-result", $args );
+	}
 }
