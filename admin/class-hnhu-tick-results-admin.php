@@ -132,4 +132,19 @@ class Hnhu_Tick_Results_Admin {
 		);
 		register_post_type( "tick-result", $args );
 	}
+
+	/**
+	* Change the placeholder text for the title in the WP Admin area
+	*
+	* @since    1.0.0
+	*/
+	public function change_tick_results_title( $title ) {
+    $screen = get_current_screen();
+    if( isset( $screen->post_type ) ) {
+        if ( 'tick-result' == $screen->post_type ) {
+            $title = __('Enter tick result ticket number here', $this->plugin_name );
+        }
+    }
+    return $title;
+	}
 }
