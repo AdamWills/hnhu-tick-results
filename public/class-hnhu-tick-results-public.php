@@ -61,18 +61,6 @@ class Hnhu_Tick_Results_Public {
 	 */
 	public function enqueue_styles() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Hnhu_Tick_Results_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Hnhu_Tick_Results_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/hnhu-tick-results-public.css', array(), $this->version, 'all' );
 
 	}
@@ -84,19 +72,29 @@ class Hnhu_Tick_Results_Public {
 	 */
 	public function enqueue_scripts() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Hnhu_Tick_Results_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Hnhu_Tick_Results_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/hnhu-tick-results-public.js', array( 'jquery' ), $this->version, false );
+
+	}
+
+	/**
+	 * Add our custom content to the end of the tick results template
+	 *
+	 * @since    1.0.0
+	 */
+	public function the_content( $post_content ) {
+
+		if ( is_page_template('tpl.tick-results.php') ) :
+
+			if (isset($_POST['ticket-number'])) {
+				include plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/tick-results.php';
+				$post_content .= $output;
+			}
+
+			include plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/tick-form.php';
+			$post_content .= $output;
+
+		endif;
+    return $post_content;
 
 	}
 

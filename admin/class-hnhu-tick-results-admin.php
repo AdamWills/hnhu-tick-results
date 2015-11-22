@@ -84,32 +84,27 @@ class Hnhu_Tick_Results_Admin {
 	 */
 	public function enqueue_scripts() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Hnhu_Tick_Results_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Hnhu_Tick_Results_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/hnhu-tick-results-admin.js', array( 'jquery' ), $this->version, false );
+		// add some data to this script, including a nonce to ensure that data is only coming through the proper channels
+		wp_localize_script( $this->plugin_name, 'tick_vars', array(
+			'tick_nonce' => wp_create_nonce( 'tick_nonce' ),
+			'selected_status' => get_field('status', $current_post->ID),
+			)
+		);
 
 	}
 
 	/**
-	* Create the tick report post type
+	* Create the tick report post type and taxonomy
 	*
 	* @since    1.0.0
 	*/
 	public function register_tick_post_type() {
 
 		$labels = array(
-			"name" => "Tick Results",
+			"name" 					=> "Tick Results",
 			"singular_name" => "Tick Result",
+			"add_new_item"  => "Add New Tick Result"
 			);
 
 		$args = array(
@@ -131,6 +126,23 @@ class Hnhu_Tick_Results_Admin {
 			"supports" => array( "title" ),
 		);
 		register_post_type( "tick-result", $args );
+
+		$labels = array(
+			"name" => "Tick Types",
+			"label" => "Tick Types",
+			);
+
+		$args = array(
+			"labels" => $labels,
+			"hierarchical" => false,
+			"label" => "Tick Types",
+			"show_ui" => true,
+			"query_var" => true,
+			"rewrite" => array( 'slug' => 'tick-types', 'with_front' => true ),
+			"show_admin_column" => false,
+		);
+		register_taxonomy( "tick-types", array( "tick-result" ), $args );
+
 	}
 
 	/**
@@ -147,4 +159,179 @@ class Hnhu_Tick_Results_Admin {
     }
     return $title;
 	}
+
+	/**
+	* Using ACF, create the custom fields!
+	*
+	* @since    1.0.0
+	*/
+	public function create_custom_fields() {
+		if(function_exists("register_field_group")) {
+			register_field_group(array (
+				'id' => 'acf_tick-results-2',
+				'title' => 'Tick Results',
+				'fields' => array (
+					array (
+						'key' => 'field_56492f620170d',
+						'label' => 'Date Sample Submitted',
+						'name' => 'date_sample_submitted',
+						'type' => 'date_picker',
+						'required' => 1,
+						'date_format' => 'yymmdd',
+						'display_format' => 'dd/mm/yy',
+						'first_day' => 0,
+					),
+					array (
+						'key' => 'field_56492f760170e',
+						'label' => 'Tick Type',
+						'name' => 'tick_type',
+						'type' => 'taxonomy',
+						'required' => 1,
+						'taxonomy' => 'tick-types',
+						'field_type' => 'select',
+						'allow_null' => 0,
+						'load_save_terms' => 0,
+						'return_format' => 'id',
+						'multiple' => 0,
+					),
+					array (
+						'key' => 'field_56492f860170f',
+						'label' => 'Status',
+						'name' => 'status',
+						'type' => 'select',
+						'required' => 1,
+						'choices' => array (
+							'' => '-- Select a Status --',
+						),
+						'default_value' => '',
+						'allow_null' => 0,
+						'multiple' => 0,
+					),
+				),
+				'location' => array (
+					array (
+						array (
+							'param' => 'post_type',
+							'operator' => '==',
+							'value' => 'tick-result',
+							'order_no' => 0,
+							'group_no' => 0,
+						),
+					),
+				),
+				'options' => array (
+					'position' => 'normal',
+					'layout' => 'default',
+					'hide_on_screen' => array (
+					),
+				),
+				'menu_order' => 0,
+			));
+			register_field_group(array (
+				'id' => 'acf_tick-types',
+				'title' => 'Tick Types',
+				'fields' => array (
+					array (
+						'key' => 'field_5649328be7fa0',
+						'label' => 'Statuses',
+						'name' => 'statuses',
+						'type' => 'repeater',
+						'sub_fields' => array (
+							array (
+								'key' => 'field_564932afe7fa1',
+								'label' => 'Name',
+								'name' => 'name',
+								'type' => 'text',
+								'column_width' => '',
+								'default_value' => '',
+								'placeholder' => '',
+								'prepend' => '',
+								'append' => '',
+								'formatting' => 'html',
+								'maxlength' => '',
+							),
+							array (
+								'key' => 'field_5651f4622f156',
+								'label' => 'Status Message',
+								'name' => 'status_message',
+								'type' => 'wysiwyg',
+								'column_width' => '',
+								'default_value' => '',
+								'toolbar' => 'full',
+								'media_upload' => 'yes',
+							),
+							array (
+								'key' => 'field_5651f5bb1f0a0',
+								'label' => 'Recommendation Based on Status',
+								'name' => 'recommendation',
+								'type' => 'wysiwyg',
+								'column_width' => '',
+								'default_value' => '',
+								'toolbar' => 'full',
+								'media_upload' => 'yes',
+							),
+						),
+						'row_min' => '',
+						'row_limit' => '',
+						'layout' => 'table',
+						'button_label' => 'Add Status',
+					),
+				),
+				'location' => array (
+					array (
+						array (
+							'param' => 'ef_taxonomy',
+							'operator' => '==',
+							'value' => 'tick-types',
+							'order_no' => 0,
+							'group_no' => 0,
+						),
+					),
+				),
+				'options' => array (
+					'position' => 'normal',
+					'layout' => 'default',
+					'hide_on_screen' => array (
+					),
+				),
+				'menu_order' => 0,
+			));
+		}
+	}
+
+	/**
+	* Functionality used by AJAX in the admin area to populate the status dropdown based on Tick Types
+	*
+	* @since    1.0.0
+	*/
+	public function get_statuses_by_tick_type( $tick_type ) {
+		// if the nonce isn't set properly, YOU SHALL NOT PASS!
+		if( !isset( $_POST['tick_nonce'] ) || !wp_verify_nonce( $_POST['tick_nonce'], 'tick_nonce' ) )
+    	die('Permission denied');
+
+		// let's make sure that we're dealing with an integer here...
+		$selected_tick_type = absint($_POST['tick_type']);
+		if ($selected_tick_type < 1) {
+			die('Not a valid tick type');
+		}
+
+		// get the statuses related to that tick type
+		$tick_statuses = get_field( 'statuses', 'tick-types_' . $selected_tick_type );
+
+		// we only need to populate the name - so let's only pass that info
+		foreach ($tick_statuses as $key => $value) {
+    	$statuses[] = $value['name'];
+  	}
+		return wp_send_json($statuses);
+	}
+
+	/**
+	* Remove the meta box for the related taxonomy since we're using ACF to manipulate the info
+	*
+	* @since    1.0.0
+	*/
+	public function remove_tick_type_meta_box() {
+		remove_meta_box( 'tagsdiv-tick-types', 'tick-result', 'side' );
+	}
+
 }

@@ -2,3 +2,37 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+
+ .tick-results {
+   border-bottom: 1px solid #333;
+   margin-bottom: 1rem;
+ }
+
+ .tick-results ul {
+   list-style: disc inside;
+ }
+
+.notice + .form-tick-results {
+  margin-top: 1rem;
+}
+
+.form-tick-results input {
+  height: 18px;
+  padding: 8px 5px;
+  font-size: 1.3rem;
+}
+
+.form-tick-results button {
+  margin-top: 1rem;
+}
+
+.tick-results h2, .form-tick-results h2 {
+  display: block;
+  font: bold 18px/22px OpenSans;
+}
+
+.tick-results label, .form-tick-results label {
+  display: block;
+  font: bold 16px/18px OpenSans;
+  margin-bottom: 8px;
+}

@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       HNHU Tick Results
  * Plugin URI:        https://hnhu.org
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       Allows visitors to retrieve tick results with a given ticket number
  * Version:           1.0.0
  * Author:            Adam Wills
  * Author URI:        https://adamwills.io
