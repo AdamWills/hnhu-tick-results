@@ -24,9 +24,9 @@ if (isset($_POST['ticket-number'])) {
 
     // search tickets by the name/ticket id
     $args = array (
-    	'post_title'             => $ticket_id,
-    	'post_type'              => 'tick-result',
-    	'posts_per_page'         => '1',
+    	'name'             => $ticket_id,
+    	'post_type'        => 'tick-result',
+    	'posts_per_page'   => '1',
     );
 
     $the_query = new WP_Query( $args );
