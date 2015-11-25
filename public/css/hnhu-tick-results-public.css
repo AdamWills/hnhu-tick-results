@@ -6,11 +6,7 @@
  .tick-results {
    border-bottom: 1px solid #333;
    margin-bottom: 1rem;
- }
-
- .tick-results ul {
-   list-style: disc inside;
- }
+}
 
 .notice + .form-tick-results {
   margin-top: 1rem;
