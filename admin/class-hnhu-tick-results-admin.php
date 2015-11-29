@@ -130,6 +130,8 @@ class Hnhu_Tick_Results_Admin {
 		$labels = array(
 			"name" => "Tick Types",
 			"label" => "Tick Types",
+			'add_new_item' => "Add Tick Type",
+			'edit_item' => "Edit Tick Type",
 			);
 
 		$args = array(
