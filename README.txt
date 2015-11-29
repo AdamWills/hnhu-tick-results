@@ -22,7 +22,7 @@ An interactive interface to display personalized tick results to the public.
 == Changelog ==
 
 = 1.0.1 =
-* Updated taxonomy labels
+* Updated taxonomy and post labels
 
 = 1.0 =
 * Initial development

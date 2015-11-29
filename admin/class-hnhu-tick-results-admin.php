@@ -104,7 +104,8 @@ class Hnhu_Tick_Results_Admin {
 		$labels = array(
 			"name" 					=> "Tick Results",
 			"singular_name" => "Tick Result",
-			"add_new_item"  => "Add New Tick Result"
+			"add_new_item"  => "Add New Tick Result",
+			"add_new"  => "Add New Result"
 			);
 
 		$args = array(
