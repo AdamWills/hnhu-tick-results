@@ -84,13 +84,19 @@ class Hnhu_Tick_Results_Admin {
 	 */
 	public function enqueue_scripts() {
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/hnhu-tick-results-admin.js', array( 'jquery' ), $this->version, false );
-		// add some data to this script, including a nonce to ensure that data is only coming through the proper channels
-		wp_localize_script( $this->plugin_name, 'tick_vars', array(
-			'tick_nonce' => wp_create_nonce( 'tick_nonce' ),
-			'selected_status' => get_field('status', $current_post->ID),
-			)
-		);
+
+			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/hnhu-tick-results-admin.js', array( 'jquery' ), $this->version, false );
+			// add some data to this script, including a nonce to ensure that data is only coming through the proper channels
+			if (isset($current_post) && isset($current_post->ID)) {
+				$current_post_id = $current_post->ID;
+			} else {
+				$current_post_id = '';
+			}
+			wp_localize_script( $this->plugin_name, 'tick_vars', array(
+				'tick_nonce' => wp_create_nonce( 'tick_nonce' ),
+				'selected_status' => get_field('status', $current_post_id),
+				)
+			);
 
 	}
 

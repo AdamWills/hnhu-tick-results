@@ -22,6 +22,8 @@ An interactive interface to display personalized tick results to the public.
 == Changelog ==
 
 = 1.0.1 =
+* Updated capability settings
+* Fixed notification related to current_post->ID not existing
 * Ticket number format is now "2015SIM001"
 * Updated taxonomy and post labels
 
