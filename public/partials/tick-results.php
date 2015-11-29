@@ -14,11 +14,11 @@
 if (isset($_POST['ticket-number'])) {
 
   // checking to make sure we're dealing with an integer
-  $ticket_id = absint($_POST['ticket-number']);
-  if ($ticket_id < 1) {
+  $ticket_id = sanitize_text_field($_POST['ticket-number']);
+  if (!preg_match("/\d{4}[a-zA-Z]{3}\d{3}/", $ticket_id)) {
     $output = '<div class="notice">';
     $output.= '<h2>Notice:</h2>';
-    $output.= '<p>Not a valid ticket number.</p>';
+    $output.= '<p>Not a valid ticket number. Ticket numbers should be in the format of "2015SIM001".</p>';
     $output.= '</div>';
   } else {
 

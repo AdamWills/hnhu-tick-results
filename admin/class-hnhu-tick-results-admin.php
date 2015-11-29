@@ -157,7 +157,7 @@ class Hnhu_Tick_Results_Admin {
     $screen = get_current_screen();
     if( isset( $screen->post_type ) ) {
         if ( 'tick-result' == $screen->post_type ) {
-            $title = __('Enter tick result ticket number here', $this->plugin_name );
+            $title = __('Enter tick result ticket number here (2015SIM001)', $this->plugin_name );
         }
     }
     return $title;
