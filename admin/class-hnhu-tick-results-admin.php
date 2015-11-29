@@ -108,47 +108,65 @@ class Hnhu_Tick_Results_Admin {
 	public function register_tick_post_type() {
 
 		$labels = array(
-			"name" 					=> "Tick Results",
-			"singular_name" => "Tick Result",
-			"add_new_item"  => "Add New Tick Result",
-			"add_new"  => "Add New Result"
+			"name" 							=> "Tick Results",
+			"singular_name" 		=> "Tick Result",
+			"add_new_item"  		=> "Add New Tick Result",
+			"add_new"  					=> "Add New Result",
+			"edit_item" 				=> "Edit Tick Result"
 			);
 
-		$args = array(
-			"labels" => $labels,
-			"description" => "",
-			"public" => true,
-			"show_ui" => true,
-			"has_archive" => false,
-			"show_in_menu" => true,
-			'menu_position' => 5,
-			'menu_icon' => 'dashicons-clipboard',
-			"exclude_from_search" => true,
-			"capability_type" => "post",
-			"map_meta_cap" => true,
-			"hierarchical" => false,
-			"rewrite" => array( "slug" => "tick-result", "with_front" => true ),
-			"query_var" => true,
+		$capabilities = array(
+			'edit_post'         => 'tickreports',
+			'read_post'         => 'tickreports',
+			'delete_post'       => 'tickreports',
+			'edit_posts'        => 'tickreports',
+			'edit_others_posts' => 'tickreports',
+			'publish_posts'     => 'tickreports',
+			'read_private_posts'=> 'tickreports',
+		);
 
-			"supports" => array( "title" ),
+		$args = array(
+			"labels" 						=> $labels,
+			"description" 			=> "",
+			"public" 						=> true,
+			"show_ui" 					=> true,
+			"has_archive" 			=> false,
+			"show_in_menu" 			=> true,
+			'menu_position' 		=> 5,
+			'menu_icon' 				=> 'dashicons-clipboard',
+			"exclude_from_search" => true,
+			"capability_type" 	=> "post",
+			"hierarchical" 			=> false,
+			"rewrite" 					=> array( "slug" => "tick-result", "with_front" => true ),
+			"query_var" 				=> true,
+			"supports" 					=> array( "title" ),
+			'capabilities'      => $capabilities
 		);
 		register_post_type( "tick-result", $args );
 
 		$labels = array(
-			"name" => "Tick Types",
-			"label" => "Tick Types",
-			'add_new_item' => "Add Tick Type",
-			'edit_item' => "Edit Tick Type",
+			"name" 							=> "Tick Types",
+			"label" 						=> "Tick Types",
+			'add_new_item' 			=> "Add Tick Type",
+			'edit_item' 				=> "Edit Tick Type",
 			);
 
+		$capabilities = array(
+			'manage_terms'      => 'tickreports',
+			'edit_terms'        => 'tickreports',
+			'delete_terms'      => 'tickreports',
+			'assign_terms'      => 'tickreports',
+		);
+
 		$args = array(
-			"labels" => $labels,
-			"hierarchical" => false,
-			"label" => "Tick Types",
-			"show_ui" => true,
-			"query_var" => true,
-			"rewrite" => array( 'slug' => 'tick-types', 'with_front' => true ),
-			"show_admin_column" => false,
+			"labels" 						=> $labels,
+			"hierarchical" 			=> false,
+			"label" 						=> "Tick Types",
+			"show_ui" 					=> true,
+			"query_var" 				=> true,
+			"rewrite" 					=> array( 'slug' => 'tick-types', 'with_front' => true ),
+			"show_admin_column"	=> false,
+			'capabilities'			=> $capabilities,
 		);
 		register_taxonomy( "tick-types", array( "tick-result" ), $args );
 
